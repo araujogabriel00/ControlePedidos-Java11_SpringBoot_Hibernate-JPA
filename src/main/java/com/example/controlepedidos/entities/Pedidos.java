@@ -26,7 +26,7 @@ public class Pedidos implements Serializable {
 	private Instant moment;
 
 	private  Integer pedidosStatus;
-
+	
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Usuario cliente;
@@ -103,9 +103,5 @@ public class Pedidos implements Serializable {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Pedidos [id=" + id + ", moment=" + moment + ", cliente=" + cliente + "]";
-	}
-
+	
 }
