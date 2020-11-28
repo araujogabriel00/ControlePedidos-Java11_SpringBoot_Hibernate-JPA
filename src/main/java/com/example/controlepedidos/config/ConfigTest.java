@@ -8,9 +8,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.example.controlepedidos.entities.Categoria;
 import com.example.controlepedidos.entities.Pedidos;
 import com.example.controlepedidos.entities.Usuario;
 import com.example.controlepedidos.entities.enums.PedidoStatus;
+import com.example.controlepedidos.repositories.RepositorioCategoria;
 import com.example.controlepedidos.repositories.RepositorioPedido;
 import com.example.controlepedidos.repositories.RepositorioUsuario;
 
@@ -28,6 +30,9 @@ public class ConfigTest implements CommandLineRunner {
 	@Autowired
 	private RepositorioUsuario repositoriousuario;
 
+	@Autowired
+	private RepositorioCategoria repositoriocategoria;
+
 	@Override
 	public void run(String... args) throws Exception {
 
@@ -38,8 +43,14 @@ public class ConfigTest implements CommandLineRunner {
 		Pedidos o2 = new Pedidos(null, Instant.parse("2019-07-21T03:42:10Z"), PedidoStatus.DELIVERED, u2);
 		Pedidos o3 = new Pedidos(null, Instant.parse("2019-07-22T15:21:22Z"), PedidoStatus.SHIPPED, u1);
 
+		Categoria cat1 = new Categoria(null, "Electronics");
+		Categoria cat2 = new Categoria(null, "Books");
+		Categoria cat3 = new Categoria(null, "Computers");
+
 		repositoriousuario.saveAll(Arrays.asList(u1, u2));
 		repositoriopedido.saveAll(Arrays.asList(o1, o2, o3));
+		repositoriocategoria.saveAll(Arrays.asList(cat1, cat2, cat3));
+
 	}
 
 }
