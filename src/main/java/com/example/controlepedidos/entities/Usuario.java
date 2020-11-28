@@ -1,11 +1,16 @@
 package com.example.controlepedidos.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Usuario implements Serializable {
@@ -20,6 +25,13 @@ public class Usuario implements Serializable {
 	private String email;
 	private String telefone;
 	private String senha;
+
+	/// QUANDO SE TEM UMA ASSOCIAÇÃO PARA MUITOS O JPA NÃO CARREGA OS OBJETOS PARA
+	/// MUITOS
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "cliente")
+	private List<Pedidos> pedidos = new ArrayList<>();
 
 	public Usuario() {
 
@@ -57,6 +69,14 @@ public class Usuario implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public List<Pedidos> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(List<Pedidos> pedidos) {
+		this.pedidos = pedidos;
 	}
 
 	public Long getId() {
