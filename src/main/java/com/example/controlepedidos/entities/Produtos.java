@@ -11,7 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_produtos")
@@ -21,7 +24,7 @@ public class Produtos implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 
 	private String nome;
 	private String descricao;
@@ -30,14 +33,16 @@ public class Produtos implements Serializable {
 
 	@ManyToMany
 	@JoinTable(name = "tb_produtos_categoria", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
-
 	private Set<Categoria> categorias = new HashSet<>();
+
+	@OneToMany(mappedBy = "id.produto")
+	private Set<PedidoItem> items = new HashSet<>();
 
 	public Produtos() {
 
 	}
 
-	public Produtos(Integer id, String nome, String descricao, Double preco, String imgUrl) {
+	public Produtos(Long id, String nome, String descricao, Double preco, String imgUrl) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -46,11 +51,11 @@ public class Produtos implements Serializable {
 		this.imgUrl = imgUrl;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -88,6 +93,15 @@ public class Produtos implements Serializable {
 
 	public Set<Categoria> getCategorias() {
 		return categorias;
+	}
+	
+	@JsonIgnore
+	public Set<Pedidos> getPedidos() {
+		Set<Pedidos> set = new HashSet<>();
+		for (PedidoItem x : items) {
+			set.add(x.getPedidos());
+		}
+		return set;
 	}
 
 	@Override

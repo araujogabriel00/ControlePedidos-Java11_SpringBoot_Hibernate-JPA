@@ -36,7 +36,7 @@ public class Pedidos implements Serializable {
 	@JoinColumn(name = "cliente_id")
 	private Usuario cliente;
 
-	@OneToMany(mappedBy = "id.pedido")
+	@OneToMany(mappedBy = "id.produto")
 	private Set<PedidoItem> items = new HashSet<>();
 
 	public Pedidos() {
