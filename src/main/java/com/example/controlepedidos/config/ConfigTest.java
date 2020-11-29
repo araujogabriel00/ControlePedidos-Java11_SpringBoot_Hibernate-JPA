@@ -1,7 +1,6 @@
 package com.example.controlepedidos.config;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.example.controlepedidos.entities.Categoria;
+import com.example.controlepedidos.entities.Pagamento;
 import com.example.controlepedidos.entities.PedidoItem;
 import com.example.controlepedidos.entities.Pedidos;
 import com.example.controlepedidos.entities.Produtos;
@@ -79,6 +79,11 @@ public class ConfigTest implements CommandLineRunner {
 
 		RepositoriopedidoItem.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 
-	}
+		Pagamento pag1 = new Pagamento(null, Instant.parse("2019-06-20T19:53:07Z"), o1);
 
+		o1.setPagamento(pag1);
+		
+		repositoriopedido.save(o1);
+
+	}
 }
