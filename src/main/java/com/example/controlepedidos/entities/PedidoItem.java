@@ -48,8 +48,7 @@ public class PedidoItem implements Serializable {
 		id.setProdutos(produtos);
 
 	}
-	
-	
+
 	public Produtos getProdutos() {
 		return id.getProdutos();
 
@@ -71,6 +70,11 @@ public class PedidoItem implements Serializable {
 		this.price = price;
 	}
 
+	public Double getSubTotal() {
+		return price * quantidade;
+		
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
