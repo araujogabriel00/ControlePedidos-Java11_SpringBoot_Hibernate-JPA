@@ -1,6 +1,7 @@
 package com.example.controlepedidos.config;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +10,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.example.controlepedidos.entities.Categoria;
+import com.example.controlepedidos.entities.PedidoItem;
 import com.example.controlepedidos.entities.Pedidos;
 import com.example.controlepedidos.entities.Produtos;
 import com.example.controlepedidos.entities.Usuario;
 import com.example.controlepedidos.entities.enums.PedidoStatus;
 import com.example.controlepedidos.repositories.RepositorioCategoria;
 import com.example.controlepedidos.repositories.RepositorioPedido;
+import com.example.controlepedidos.repositories.RepositorioPedidoItem;
 import com.example.controlepedidos.repositories.RepositorioProdutos;
 import com.example.controlepedidos.repositories.RepositorioUsuario;
 
@@ -23,7 +26,6 @@ import com.example.controlepedidos.repositories.RepositorioUsuario;
 
 @Profile("test")
 @Configuration
-
 public class ConfigTest implements CommandLineRunner {
 
 	@Autowired
@@ -34,12 +36,12 @@ public class ConfigTest implements CommandLineRunner {
 
 	@Autowired
 	private RepositorioCategoria repositoriocategoria;
-	
-	@Autowired
-	private RepositorioProdutos repositorioprodutos ;
-	
 
-	
+	@Autowired
+	private RepositorioProdutos repositorioprodutos;
+
+	@Autowired
+	private RepositorioPedidoItem RepositoriopedidoItem;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -54,7 +56,6 @@ public class ConfigTest implements CommandLineRunner {
 		Categoria cat1 = new Categoria(null, "Electronics");
 		Categoria cat2 = new Categoria(null, "Books");
 		Categoria cat3 = new Categoria(null, "Computers");
-		
 
 		Produtos p1 = new Produtos(null, "The Lord of the Rings", "Lorem ipsum dolor sit amet, consectetur.", 90.5, "");
 		Produtos p2 = new Produtos(null, "Smart TV", "Nulla eu imperdiet purus. Maecenas ante.", 2190.0, "");
@@ -65,12 +66,18 @@ public class ConfigTest implements CommandLineRunner {
 		p1.getCategorias().add(cat2);
 		p2.getCategorias().add(cat1);
 		p3.getCategorias().add(cat3);
-		
+
 		repositoriousuario.saveAll(Arrays.asList(u1, u2));
 		repositoriopedido.saveAll(Arrays.asList(o1, o2, o3));
 		repositoriocategoria.saveAll(Arrays.asList(cat1, cat2, cat3));
-		repositorioprodutos.saveAll(Arrays.asList(p1,p2,p3,p4,p5));
-		
+		repositorioprodutos.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
+
+		PedidoItem oi1 = new PedidoItem(o1, p1, 2, p1.getPreco());
+		PedidoItem oi2 = new PedidoItem(o1, p3, 1, p3.getPreco());
+		PedidoItem oi3 = new PedidoItem(o2, p3, 2, p3.getPreco());
+		PedidoItem oi4 = new PedidoItem(o3, p5, 2, p5.getPreco());
+
+		RepositoriopedidoItem.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 
 	}
 
