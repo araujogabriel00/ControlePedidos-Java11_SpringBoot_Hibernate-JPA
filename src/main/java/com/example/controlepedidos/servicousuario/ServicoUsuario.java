@@ -3,6 +3,8 @@ package com.example.controlepedidos.servicousuario;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -49,9 +51,13 @@ public class ServicoUsuario {
 	}
 
 	public Usuario update(Long id, Usuario obj) {
-		Usuario entidade = repositorio.getOne(id);
-		atualizacaoDados(entidade, obj);
-		return repositorio.save(entidade);
+		try {
+			Usuario entidade = repositorio.getOne(id);
+			atualizacaoDados(entidade, obj);
+			return repositorio.save(entidade);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 
 	}
 
